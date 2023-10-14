@@ -16,7 +16,8 @@
  * @author thomas schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
  *
  */
-
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.marshalling
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
+package marshalling
+package models
 
 trait MarshallModel[T <: MarshallModel[T]] extends Serializable

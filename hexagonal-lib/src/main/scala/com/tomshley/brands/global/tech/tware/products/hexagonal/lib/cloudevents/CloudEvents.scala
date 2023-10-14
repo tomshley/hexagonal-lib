@@ -17,7 +17,8 @@
  *
  */
 
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.cloudevents
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
+package cloudevents
 
 import java.net.URI
 import java.time.ZonedDateTime

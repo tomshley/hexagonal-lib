@@ -17,7 +17,8 @@
  *
  */
 
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.basics
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
+package basics
 
 /**
  * The marker trait that this type is for 'pimp my library' pattern...

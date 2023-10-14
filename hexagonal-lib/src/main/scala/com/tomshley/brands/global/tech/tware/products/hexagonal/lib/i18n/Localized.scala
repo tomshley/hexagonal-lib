@@ -17,7 +17,8 @@
  *
  */
 
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.i18n
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
+package i18n
 
 trait Localized[T] {
   def locale(a: T): Lang

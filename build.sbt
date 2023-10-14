@@ -2,7 +2,7 @@
 //import com.tomshley.brands.global.tech.tware.products.hexagonal.plugins.projectstructure.ProjectStructurePlugin.autoImport.hexagonalPart
 
 import sbt.file
-lazy val libProject = hexagonalLibProject("hexagonal-lib", Dependencies.javaProject, Dependencies.libProject, Scala3.settings)
+lazy val libProject = hexagonalLibProject("hexagonal-lib", Dependencies.javaProject, Dependencies.jsonProject, Dependencies.akkaProject, Dependencies.libProject, Scala3.settings)
 
 lazy val projects = (project in file("."))
   .aggregate(

@@ -17,7 +17,8 @@
  *
  */
 
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.util
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
+package util
 
 import com.github.nscala_time.time.Implicits
 

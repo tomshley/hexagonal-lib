@@ -1,4 +1,5 @@
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.config
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
+package config
 
 /*
   credit: https://gist.github.com/DanielaSfregola/603a39c8c5ae7b620aec

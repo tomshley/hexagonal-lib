@@ -17,7 +17,8 @@
  *
  */
 
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.config
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
+package config
 
 
 enum ConfigBlocks(blockName: String) {

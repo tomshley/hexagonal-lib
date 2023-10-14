@@ -17,7 +17,21 @@ object Dependencies {
   lazy val slf4jVersion = "2.0.5"
   lazy val apacheCommonsIOVersion = "20030203.000550"
   lazy val apacheCommonsDigester = "3.2"
+  lazy val akkaVersion = "2.9.0-M2"
+  lazy val json4sVersion = "4.1.0-M3"
 
+  val akkaProject: Seq[Def.Setting[Seq[ModuleID]]] = Seq(
+    libraryDependencies ++= Seq(
+      "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+      "com.typesafe.akka" %% "akka-testkit" % akkaVersion % Test
+    )
+  )
+  val jsonProject: Seq[Def.Setting[Seq[ModuleID]]] = Seq(
+    libraryDependencies ++= Seq(
+      "org.json4s" %% "json4s-native" % json4sVersion,
+      "org.json4s" %% "json4s-jackson" % json4sVersion
+    )
+  )
   val javaProject: Seq[Def.Setting[Seq[ModuleID]]] = Seq(
     libraryDependencies ++= Seq(
       "org.apache.commons" % "commons-digester3" % apacheCommonsDigester,

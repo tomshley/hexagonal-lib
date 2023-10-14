@@ -17,7 +17,8 @@
  *
  */
 
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.i18n
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
+package i18n
 
 import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.basics.PimpedType
 import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.config.ConfigKeys
