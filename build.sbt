@@ -1,6 +1,3 @@
-//import com.tomshley.brands.global.tech.tware.products.hexagonal.plugins.common.model.ValueAdd
-//import com.tomshley.brands.global.tech.tware.products.hexagonal.plugins.projectstructure.ProjectStructurePlugin.autoImport.hexagonalPart
-
 import sbt.file
 lazy val libProject = hexagonalLibProject("hexagonal-lib", Dependencies.javaProject, Dependencies.jsonProject, Dependencies.akkaProject, Dependencies.libProject, Scala3.settings)
 
@@ -9,11 +6,12 @@ lazy val projects = (project in file("."))
     libProject
   )
   .settings(
-    scalaVersion := Dependencies.Scala3
+    scalaVersion := Dependencies.Scala3,
   )
 
 def hexagonalLibProject(projectName: String, additionalSettings: sbt.Def.SettingsDefinition*): Project = {
   Project(id = projectName, base = file(projectName))
+    .enablePlugins(ProjectSettingsPlugin)
     .settings(
       organization := "com.tomshley.brands.global.tech.tware.products.hexagonal",
       name := projectName,
