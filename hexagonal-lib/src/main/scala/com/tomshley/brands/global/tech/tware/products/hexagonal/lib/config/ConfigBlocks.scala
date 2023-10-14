@@ -21,7 +21,7 @@ package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
 package config
 
 
-enum ConfigBlocks(blockName: String) {
+protected[lib] enum ConfigBlocks(blockName: String) {
   case I18N extends ConfigBlocks("hexagonal.lib.i18n")
 
   def toBlockName: String = blockName

@@ -20,7 +20,7 @@
 package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
 package config
 
-case class ConfigBlockKey(parentBlock: ConfigBlocks, keyName: String, defaultValueOption: Option[String] = None) {
+class ConfigBlockKey(parentBlock: ConfigBlocks, keyName: String, defaultValueOption: Option[String] = None) {
   override def toString: String = {
     Seq(
       ConfigBlockKey.config.envOrElseConfig(Seq(parentBlock.toBlockName, keyName).mkString(".")),

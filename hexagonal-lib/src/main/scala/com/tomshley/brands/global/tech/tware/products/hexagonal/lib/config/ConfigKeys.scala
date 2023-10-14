@@ -20,7 +20,7 @@
 package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
 package config
 
-enum ConfigKeys(configBlockKey: ConfigBlockKey) {
+protected[lib] enum ConfigKeys(configBlockKey: ConfigBlockKey) {
   case I18N_DEFAULT_NAME extends ConfigKeys(ConfigBlockKey(ConfigBlocks.I18N, "defaultName", Some("strings")))
   case I18N_DEFAULT_FILE_EXT extends ConfigKeys(ConfigBlockKey(ConfigBlocks.I18N, "defaultExt", Some(".i18n")))
 
