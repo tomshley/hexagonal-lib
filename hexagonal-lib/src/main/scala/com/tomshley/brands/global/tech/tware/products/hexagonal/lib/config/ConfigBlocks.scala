@@ -20,9 +20,9 @@
 package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
 package config
 
-
 protected[lib] enum ConfigBlocks(blockName: String) {
   case I18N extends ConfigBlocks("hexagonal.lib.i18n")
+  case SERVERS extends ConfigBlocks("hexagonal.lib.servers")
 
   def toBlockName: String = blockName
 }
