@@ -16,6 +16,6 @@
  * @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
  */
 
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.flogger
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.simplelogger
 
-protected[flogger] case class FastLoggerMessage(message: String)
+protected[simplelogger] case class SimpleLoggerSource(clazz: Class[Any])

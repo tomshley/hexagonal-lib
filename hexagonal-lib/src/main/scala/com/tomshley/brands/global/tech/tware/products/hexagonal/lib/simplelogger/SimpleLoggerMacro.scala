@@ -16,28 +16,28 @@
  * @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
  */
 
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.flogger
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.simplelogger
 
-protected[flogger] object FastLoggerMacro {
+protected[simplelogger] object SimpleLoggerMacro {
   def log(
-      fastLoggerSeverity: FastLoggerSeverity,
-      fastLoggerSource: Option[FastLoggerSource] = Option.empty,
-      fastLoggerMessage: Option[FastLoggerMessage] = Option.empty,
-      fastLoggerException: Option[FastLoggerThrowable] = Option.empty
+      simpleLoggerSeverity: SimpleLoggerSeverity,
+      simpleLoggerSource: Option[SimpleLoggerSource] = Option.empty,
+      simpleLoggerMessage: Option[SimpleLoggerMessage] = Option.empty,
+      simpleLoggerException: Option[SimpleLoggerThrowable] = Option.empty
   ): Unit = {
-    println(new FastLoggerMacro(
-      Some(fastLoggerSeverity),
-      fastLoggerSource,
-      fastLoggerMessage,
-      fastLoggerException
+    println(new SimpleLoggerMacro(
+      Some(simpleLoggerSeverity),
+      simpleLoggerSource,
+      simpleLoggerMessage,
+      simpleLoggerException
     )).toString
   }
 }
-final private[this] class FastLoggerMacro(
-    val fastLoggerSeverity: Option[FastLoggerSeverity],
-    val fastLoggerSource: Option[FastLoggerSource] = Option.empty,
-    val fastLoggerMessage: Option[FastLoggerMessage] = Option.empty,
-    val fastLoggerException: Option[FastLoggerThrowable] = Option.empty
+final private[this] class SimpleLoggerMacro(
+    val simpleLoggerSeverity: Option[SimpleLoggerSeverity],
+    val simpleLoggerSource: Option[SimpleLoggerSource] = Option.empty,
+    val simpleLoggerMessage: Option[SimpleLoggerMessage] = Option.empty,
+    val simpleLoggerException: Option[SimpleLoggerThrowable] = Option.empty
 ) {
   override def toString: String = {
     def applyDashPrefix(string: String) = {
@@ -59,10 +59,10 @@ final private[this] class FastLoggerMacro(
     lazy val logArguments: Seq[String] =
       Seq(
         Some(LocalDateTime.now()),
-        fastLoggerSeverity,
-        fastLoggerSource,
-        fastLoggerMessage,
-        fastLoggerException
+        simpleLoggerSeverity,
+        simpleLoggerSource,
+        simpleLoggerMessage,
+        simpleLoggerException
       )
         .filter(
           _.isDefined
@@ -70,12 +70,12 @@ final private[this] class FastLoggerMacro(
         .map(
           _.get match
             case d: LocalDateTime      => d.format(formatter)
-            case s: FastLoggerSeverity => applyBracketFormat(s.toLabel)
-            case s: FastLoggerSource   => applyChildScopeFormat(
+            case s: SimpleLoggerSeverity => applyBracketFormat(s.toLabel)
+            case s: SimpleLoggerSource   => applyChildScopeFormat(
                 s.clazz.asInstanceOf[AnyRef].getClass.toString
               )
-            case m: FastLoggerMessage   => m.message
-            case t: FastLoggerThrowable => applyDashPrefix(t.throwable.toString)
+            case m: SimpleLoggerMessage   => m.message
+            case t: SimpleLoggerThrowable => applyDashPrefix(t.throwable.toString)
         )
 
     lazy val logPrintString: String = logArguments.mkString("")
