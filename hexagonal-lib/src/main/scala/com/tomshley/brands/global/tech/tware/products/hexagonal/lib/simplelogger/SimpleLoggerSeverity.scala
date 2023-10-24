@@ -16,13 +16,13 @@
  * @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
  */
 
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.flogger
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.simplelogger
 
-protected[flogger] enum FastLoggerSeverity(label: String):
-  case DEBUG extends FastLoggerSeverity("debug")
-  case ERROR extends FastLoggerSeverity("error")
-  case INFO extends FastLoggerSeverity("info")
-  case TRACE extends FastLoggerSeverity("trace")
-  case WARN extends FastLoggerSeverity("warn")
+protected[simplelogger] enum SimpleLoggerSeverity(label: String):
+  case DEBUG extends SimpleLoggerSeverity("debug")
+  case ERROR extends SimpleLoggerSeverity("error")
+  case INFO extends SimpleLoggerSeverity("info")
+  case TRACE extends SimpleLoggerSeverity("trace")
+  case WARN extends SimpleLoggerSeverity("warn")
 
   def toLabel: String = label
