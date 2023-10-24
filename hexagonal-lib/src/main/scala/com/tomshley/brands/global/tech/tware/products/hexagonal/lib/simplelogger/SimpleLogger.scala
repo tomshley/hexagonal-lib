@@ -16,14 +16,14 @@
  * @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
  */
 
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.flogger
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.simplelogger
 
 trait Flogger {
   @transient
   protected lazy val logger: SimpleLogger = SimpleLogger()
 }
 
-final class SimpleLogger private[flogger]() extends InlineSimpleLoggerMacro with Serializable
+final class SimpleLogger private[simplelogger]() extends InlineSimpleLoggerMacro with Serializable
 
 sealed trait InlineSimpleLoggerMacro {
   inline def debug(message: String): Unit = SimpleLoggerMacro

@@ -16,9 +16,9 @@
  * @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
  */
 
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.flogger
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.simplelogger
 
-protected[flogger] object SimpleLoggerMacro {
+protected[simplelogger] object SimpleLoggerMacro {
   def log(
       simpleLoggerSeverity: SimpleLoggerSeverity,
       simpleLoggerSource: Option[SimpleLoggerSource] = Option.empty,
