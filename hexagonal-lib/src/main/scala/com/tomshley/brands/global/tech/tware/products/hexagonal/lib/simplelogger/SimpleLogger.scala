@@ -18,7 +18,7 @@
 
 package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.simplelogger
 
-trait Flogger {
+trait SLogger {
   @transient
   protected lazy val logger: SimpleLogger = SimpleLogger()
 }
