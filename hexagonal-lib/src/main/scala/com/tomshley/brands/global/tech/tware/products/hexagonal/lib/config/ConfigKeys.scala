@@ -23,10 +23,10 @@ package config
 protected[lib] enum ConfigKeys(configBlockKey: ConfigBlockKey) {
   case I18N_DEFAULT_NAME extends ConfigKeys(ConfigBlockKey(ConfigBlocks.I18N, "defaultName", Some("strings")))
   case I18N_DEFAULT_FILE_EXT extends ConfigKeys(ConfigBlockKey(ConfigBlocks.I18N, "defaultExt", Some(".i18n")))
-  case SERVERS_HOSTNAME extends ConfigKeys(ConfigBlockKey(ConfigBlocks.SERVERS, "servers", Some("localhost")))
+  case SERVERS_HOSTNAME extends ConfigKeys(ConfigBlockKey(ConfigBlocks.SERVERS, "runmainasfuture", Some("localhost")))
   case SERVERS_PORT extends ConfigKeys(ConfigBlockKey(ConfigBlocks.SERVERS, "port", Some("8080")))
   case SERVERS_THREAD_COUNT extends ConfigKeys(ConfigBlockKey(ConfigBlocks.SERVERS, "threadCount", Some("4")))
-  case SERVERS_ACTOR_SYSTEM_NAME extends ConfigKeys(ConfigBlockKey(ConfigBlocks.SERVERS, "actorSystemName", Some("hexagonal-lib-servers")))
+  case SERVERS_ACTOR_SYSTEM_NAME extends ConfigKeys(ConfigBlockKey(ConfigBlocks.SERVERS, "actorSystemName", Some("hexagonal-lib-runmainasfuture")))
 
   def toValue: String = configBlockKey.toString
 }
