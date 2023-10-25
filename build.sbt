@@ -1,7 +1,7 @@
 import sbt.file
 
 lazy val libProjectName = "hexagonal-lib"
-lazy val examplesProjectName = "hexagonal-examples"
+lazy val examplesProjectName = "hexagonal-lib-examples"
 lazy val protocSettings = Seq(
   Compile / PB.protoSources := Seq(
     sourceDirectory.value / "main" / "proto"
