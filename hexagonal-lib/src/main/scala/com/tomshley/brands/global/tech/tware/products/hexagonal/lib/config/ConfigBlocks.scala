@@ -22,7 +22,7 @@ package config
 
 protected[lib] enum ConfigBlocks(blockName: String) {
   case I18N extends ConfigBlocks("hexagonal.lib.i18n")
-  case SERVERS extends ConfigBlocks("hexagonal.lib.servers")
+  case SERVERS extends ConfigBlocks("hexagonal.lib.runmainasfuture")
 
   def toBlockName: String = blockName
 }

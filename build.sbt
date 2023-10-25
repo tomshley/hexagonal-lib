@@ -1,19 +1,45 @@
 import sbt.file
 
-lazy val projectName = "hexagonal-lib"
+lazy val libProjectName = "hexagonal-lib"
+lazy val examplesProjectName = "hexagonal-lib-examples"
+lazy val protocSettings = Seq(
+  Compile / PB.protoSources := Seq(
+    sourceDirectory.value / "main" / "proto"
+  ),
+  Compile / PB.targets := Seq(
+    scalapb.gen() -> (Compile / sourceManaged).value
+  ),
+  PB.protocExecutable := file("/opt/homebrew/Cellar/protobuf/24.4/bin/protoc-24.4.0")
+)
 
-lazy val hexagonalLib = publishableProject(projectName)
-  .enablePlugins(HexagonalLibProjectPlugin)
+lazy val libProject = publishableProject(examplesProjectName)
+  .enablePlugins(LibProjectPlugin)
   .settings(
+    name := libProjectName,
+    organization := "com.tomshley.brands.global.tech.tware.products.hexagonal.lib",
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %% "compilerplugin" % "0.11.13",
-      "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % "0.11.13"
+      // Warning: Under Construction
     )
   )
+  .settings(protocSettings *)
 
+lazy val examplesProject = internalProject(libProjectName)
+  .enablePlugins(CoreProjectPlugin, ProtocPlugin)
+  .dependsOn(libProject)
+  .settings(
+    name := examplesProjectName,
+    organization := "com.tomshley.brands.global.tech.tware.products.hexagonal.examples",
+    libraryDependencies ++= Seq(
+      // Warning: Under Construction
+    ),
+  )
+  .settings(protocSettings *)
+  .dependsOn(libProject)
 
-lazy val projects = (project in file("."))
+lazy val hexagonalLib = (project in file("."))
   .enablePlugins(ProjectsHelperPlugin)
   .aggregate(
-    hexagonalLib
+    libProject,
+    examplesProject
   )
+  .settings(protocSettings *)
