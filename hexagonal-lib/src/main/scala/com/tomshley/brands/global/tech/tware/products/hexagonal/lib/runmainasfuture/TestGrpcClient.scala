@@ -16,21 +16,13 @@
  * @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
  */
 
-package com.tomshley.brands.global.tech.tware.examples.hexagonal.lib.jvm.helloakkahttp
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture
 
-import akka.http.scaladsl.server.Directives.{complete, concat, get, path}
-import akka.http.scaladsl.server.Route
-import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.{AkkaHttpServer, ServerProperties}
+import io.grpc.{ManagedChannel, ManagedChannelBuilder}
 
-object HelloWorldServer extends AkkaHttpServer {
-  override lazy val serverProperties = ServerProperties(hostname = "localhost", port = 80081)
-  private val myEndpoint: Route =
-    get {
-      concat(path("helloworld") {
-        complete("hello")
-      })
-    }
-
-  addService(myEndpoint)
-  run
+class TestGrpcClient(val serverProperties: ServerProperties) {
+  lazy val channel: ManagedChannel = ManagedChannelBuilder
+    .forAddress(serverProperties.hostname, serverProperties.port)
+    .usePlaintext() // don't use encryption (for demo purposes)
+    .build
 }

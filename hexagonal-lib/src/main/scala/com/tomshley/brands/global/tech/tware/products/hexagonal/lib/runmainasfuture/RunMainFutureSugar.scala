@@ -21,8 +21,8 @@ package runmainasfuture
 
 import akka.Done
 import akka.actor.Status.{Failure, Success}
-import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.simplelogger.*
 import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.ServerProperties
+import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.simplelogger.*
 
 import java.util.concurrent.Executors
 import scala.collection.mutable
@@ -31,8 +31,8 @@ import scala.io.StdIn
 
 /** This is the primary abstract class for the server implementation that will live inside a future
  * Example: import io.grpc.ServerServiceDefinition import
- * tech.tware.examples.hexagonal.lib.jvm.hellogrpc.app.HelloWorldServiceHandler import
- * tech.tware.examples.hexagonal.lib.jvm.hellogrpc.helloworld.HelloWorldGrpc import
+ * com.tomshley.brands.global.tech.tware.examples.hexagonal.lib.hellogrpc.app.HelloWorldServiceHandler import
+ * com.tomshley.brands.global.tech.tware.examples.hexagonal.lib.hellogrpc.helloworld.HelloWorldGrpc import
  * com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.{ GrpcServer, ServerProperties }
  *
  * import scala.concurrent.Future

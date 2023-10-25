@@ -26,8 +26,8 @@ import akka.http.scaladsl.Http.ServerBinding
 import akka.http.scaladsl.server.Directives.{complete, concat, get, path}
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.{Http, ServerBuilder}
-import org.joda.time.DateTime
 import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.RunMainFutureSugar
+import org.joda.time.DateTime
 
 import scala.concurrent.Future
 
