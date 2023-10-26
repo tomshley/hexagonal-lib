@@ -48,9 +48,9 @@ trait GrpcServer extends RunMainFutureSugar[Server, ServerServiceDefinition] {
   }
   private[this] lazy val serverBuilder = ServerBuilder.forPort(serverProperties.port)
 
-  override def addService(service: ServerServiceDefinition): Unit = {
+  override def addServices(services: ServerServiceDefinition*): Unit = {
     logger.debug("Add Service Called")
-    serverBuilder.addService(service)
+    services.foreach(s => serverBuilder.addService(s))
     logger.debug("Service added to server builder")
   }
 }

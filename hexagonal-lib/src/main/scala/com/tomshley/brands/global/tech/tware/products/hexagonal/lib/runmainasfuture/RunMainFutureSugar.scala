@@ -20,9 +20,7 @@ package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
 package runmainasfuture
 
 import akka.Done
-import akka.actor.Status.{Failure, Success}
-import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.ServerProperties
-import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.simplelogger.*
+import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.simplelogger.SLogger
 
 import java.util.concurrent.Executors
 import scala.collection.mutable
@@ -41,7 +39,7 @@ import scala.io.StdIn
  *
  * override lazy val serverProperties = ServerProperties(hostname = "localhost", port = 50051)
  *
- * addService(HelloWorldGrpc.bindService(new HelloWorldServiceHandler(), ec))
+ * addServices(HelloWorldGrpc.bindService(new HelloWorldServiceHandler(), ec))
  *
  * run }
  *
@@ -65,7 +63,7 @@ protected[runmainasfuture] trait RunMainFutureSugar[S1, S2] extends App with SLo
     )
   }
   lazy val serverProperties: ServerProperties = {
-    throw new NotImplementedError("This method must be implemented to use a server")
+    new ServerProperties()
   }
   lazy val serverCreation: Future[S1]
   lazy val serverTermination: Future[Done]
@@ -101,9 +99,10 @@ protected[runmainasfuture] trait RunMainFutureSugar[S1, S2] extends App with SLo
   given ec: ExecutionContext =
     ExecutionContext.fromExecutor(Executors.newFixedThreadPool(serverProperties.threadCount))
 
-  /** @param service
+  /**
+   * @param services
    */
-  def addService(service: S2): Unit = {
+  def addServices(services: S2*): Unit = {
     throw new NotImplementedError(
       "This method must be implemented to use services. Ok if not using services"
     )

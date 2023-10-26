@@ -22,34 +22,36 @@ package runmainasfuture
 import akka.Done
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
+import akka.http.scaladsl.Http
 import akka.http.scaladsl.Http.ServerBinding
 import akka.http.scaladsl.server.Directives.{complete, concat, get, path}
 import akka.http.scaladsl.server.Route
-import akka.http.scaladsl.{Http, ServerBuilder}
-import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.RunMainFutureSugar
 import org.joda.time.DateTime
 
 import scala.concurrent.Future
 
 trait AkkaHttpServer extends RunMainFutureSugar[ServerBinding, Route] {
+  private var serviceDefinitions:List[Route] = List(
+    get {
+      path("heartbeat") {
+        complete(new DateTime().toString)
+      }
+    }
+  )
+
   lazy val serverBuilder = Http().newServerAt(serverProperties.hostname, serverProperties.port)
+
   override lazy val serverCreation: Future[ServerBinding] = {
-    serverBuilder.bind(heartbeat)
+    serverBuilder.bind(concat(serviceDefinitions *))
   }
   override lazy val serverTermination: Future[Done] = {
+    serviceDefinitions = null
     serverCreation.flatMap(_.unbind())
   }
-  private[this] val heartbeat: Route =
-    get {
-      concat(path("heartbeat") {
-        complete(new DateTime().toString)
-      })
-    }
-
   given system: ActorSystem[Nothing] =
     ActorSystem(Behaviors.empty, serverProperties.actorSystemName)
 
-  override def addService(service: Route): Unit = {
-    serverBuilder.bind(service)
+  override def addServices(services: Route*): Unit = {
+    serviceDefinitions = serviceDefinitions :++ services
   }
 }
