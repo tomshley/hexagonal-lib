@@ -46,7 +46,7 @@ sealed trait ServerPropertiesDef {
       configValue => actorSystemNameOption.get)
   }
 }
-final class ServerProperties(
+final case class ServerProperties(
     hostnameOption: Option[String] = None,
     portOption: Option[Int] = None,
     threadCountOption: Option[Int] = None,
