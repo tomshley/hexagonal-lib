@@ -20,14 +20,10 @@
 package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
 package config
 
-import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.config.{ConfigBlockKey, ConfigBlocks, ConfigEnvOrFile}
-
 class ConfigBlockKey(parentBlock: ConfigBlocks, keyName: String, defaultValueOption: Option[String] = None) {
   override def toString: String = {
-    Seq(
-      ConfigBlockKey.config.envOrElseConfig(Seq(parentBlock.toBlockName, keyName).mkString(".")),
-      defaultValueOption.getOrElse("")
-    ).foldLeft("")(_ + _)
+    lazy val configValue: String = ConfigBlockKey.config.envOrElseConfig(Seq(parentBlock.toBlockName, keyName).mkString("."))
+    Option(configValue).filter(_.nonEmpty).getOrElse(defaultValueOption.getOrElse(""))
   }
 }
 

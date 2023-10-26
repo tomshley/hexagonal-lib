@@ -20,9 +20,6 @@ package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
 package runmainasfuture
 
 import akka.Done
-import akka.actor.Status.{Failure, Success}
-import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.ServerProperties
-import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.simplelogger.*
 
 import java.util.concurrent.Executors
 import scala.collection.mutable
@@ -65,7 +62,7 @@ protected[runmainasfuture] trait RunMainFutureSugar[S1, S2] extends App with SLo
     )
   }
   lazy val serverProperties: ServerProperties = {
-    throw new NotImplementedError("This method must be implemented to use a server")
+    new ServerProperties()
   }
   lazy val serverCreation: Future[S1]
   lazy val serverTermination: Future[Done]
