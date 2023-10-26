@@ -19,6 +19,8 @@
 package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
 package runmainasfuture
 
+import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.config.ConfigKeys
+
 sealed trait ServerPropertiesDef {
   val hostnameOption: Option[String] = None
   val portOption: Option[Int] = None

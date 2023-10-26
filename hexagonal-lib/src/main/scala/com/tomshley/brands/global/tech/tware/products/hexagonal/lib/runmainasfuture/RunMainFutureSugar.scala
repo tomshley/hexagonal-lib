@@ -20,6 +20,7 @@ package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
 package runmainasfuture
 
 import akka.Done
+import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.simplelogger.SLogger
 
 import java.util.concurrent.Executors
 import scala.collection.mutable
