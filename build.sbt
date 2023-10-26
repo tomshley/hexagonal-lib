@@ -12,7 +12,7 @@ lazy val protocSettings = Seq(
   PB.protocExecutable := file("/opt/homebrew/Cellar/protobuf/24.4/bin/protoc-24.4.0")
 )
 
-lazy val libProject = publishableProject(examplesProjectName)
+lazy val libProject = publishableProject(libProjectName)
   .enablePlugins(LibProjectPlugin)
   .settings(
     name := libProjectName,
@@ -23,7 +23,7 @@ lazy val libProject = publishableProject(examplesProjectName)
   )
   .settings(protocSettings *)
 
-lazy val examplesProject = internalProject(libProjectName)
+lazy val examplesProject = internalProject(examplesProjectName)
   .enablePlugins(CoreProjectPlugin, ProtocPlugin)
   .dependsOn(libProject)
   .settings(
