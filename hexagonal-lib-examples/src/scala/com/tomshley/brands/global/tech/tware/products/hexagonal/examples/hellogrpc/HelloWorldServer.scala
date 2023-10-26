@@ -39,7 +39,7 @@ object HelloWorldServer extends GrpcServer with SLogger {
     }
   }
 
-  addService(HelloWorldGrpc.bindService(new HelloWorldService(), ec))
+  addServices()
 
   run
 }

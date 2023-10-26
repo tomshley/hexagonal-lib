@@ -31,6 +31,6 @@ object HelloWorldServer extends AkkaHttpServer {
       })
     }
 
-  addService(myEndpoint)
+  addServices(myEndpoint)
   run
 }

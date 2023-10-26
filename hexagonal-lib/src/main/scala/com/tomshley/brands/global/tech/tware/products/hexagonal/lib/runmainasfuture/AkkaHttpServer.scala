@@ -51,7 +51,7 @@ trait AkkaHttpServer extends RunMainFutureSugar[ServerBinding, Route] {
   given system: ActorSystem[Nothing] =
     ActorSystem(Behaviors.empty, serverProperties.actorSystemName)
 
-  override def addService(service: Route): Unit = {
-    serviceDefinitions = serviceDefinitions :+ service
+  override def addServices(services: Route*): Unit = {
+    serviceDefinitions = serviceDefinitions :++ services
   }
 }

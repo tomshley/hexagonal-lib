@@ -22,10 +22,10 @@ package runmainasfuture
 import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.config.ConfigKeys
 
 sealed trait ServerPropertiesDef {
-  val hostnameOption: Option[String] = None
-  val portOption: Option[Int] = None
-  val threadCountOption: Option[Int] = None
-  val actorSystemNameOption: Option[String] = None
+  private val hostnameOption: Option[Nothing] = None
+  private val portOption: Option[Int] = None
+  private val threadCountOption: Option[Int] = None
+  private val actorSystemNameOption: Option[String] = None
 
   lazy val hostname: String = {
     hostnameOption.fold(
@@ -48,9 +48,5 @@ sealed trait ServerPropertiesDef {
       configValue => actorSystemNameOption.get)
   }
 }
-final case class ServerProperties(
-    hostnameOption: Option[String] = None,
-    portOption: Option[Int] = None,
-    threadCountOption: Option[Int] = None,
-    actorSystemNameOption: Option[String] = None) extends ServerPropertiesDef {
+final class ServerProperties(hostnameOption: Option[String] = None, portOption: Option[Int] = None, threadCountOption: Option[Int] = None, actorSystemNameOption: Option[String] = None) extends ServerPropertiesDef {
 }

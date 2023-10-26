@@ -39,7 +39,7 @@ import scala.io.StdIn
  *
  * override lazy val serverProperties = ServerProperties(hostname = "localhost", port = 50051)
  *
- * addService(HelloWorldGrpc.bindService(new HelloWorldServiceHandler(), ec))
+ * addServices(HelloWorldGrpc.bindService(new HelloWorldServiceHandler(), ec))
  *
  * run }
  *
@@ -99,9 +99,10 @@ protected[runmainasfuture] trait RunMainFutureSugar[S1, S2] extends App with SLo
   given ec: ExecutionContext =
     ExecutionContext.fromExecutor(Executors.newFixedThreadPool(serverProperties.threadCount))
 
-  /** @param service
+  /**
+   * @param services
    */
-  def addService(service: S2): Unit = {
+  def addServices(services: S2*): Unit = {
     throw new NotImplementedError(
       "This method must be implemented to use services. Ok if not using services"
     )
