@@ -19,7 +19,7 @@
 package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
 package runmainasfuture
 
-import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.config.ConfigKeys
+import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.config.HexagonalConfigKeys
 
 sealed trait ServerPropertiesDef {
   private val hostnameOption: Option[Nothing] = None
@@ -29,22 +29,22 @@ sealed trait ServerPropertiesDef {
 
   lazy val hostname: String = {
     hostnameOption.fold(
-      ifEmpty = ConfigKeys.SERVERS_HOSTNAME.toValue)(
+      ifEmpty = HexagonalConfigKeys.SERVERS_HOSTNAME.toValue)(
       configValue => hostnameOption.get)
   }
   lazy val port: Int = {
     portOption.fold(
-      ifEmpty = ConfigKeys.SERVERS_PORT.toValue.toInt)(
+      ifEmpty = HexagonalConfigKeys.SERVERS_PORT.toValue.toInt)(
       configValue => portOption.get)
   }
   lazy val threadCount: Int = {
     threadCountOption.fold(
-      ifEmpty = ConfigKeys.SERVERS_THREAD_COUNT.toValue.toInt)(
+      ifEmpty = HexagonalConfigKeys.SERVERS_THREAD_COUNT.toValue.toInt)(
       configValue => threadCountOption.get)
   }
   lazy val actorSystemName: String = {
     actorSystemNameOption.fold(
-      ifEmpty = ConfigKeys.SERVERS_ACTOR_SYSTEM_NAME.toValue)(
+      ifEmpty = HexagonalConfigKeys.SERVERS_ACTOR_SYSTEM_NAME.toValue)(
       configValue => actorSystemNameOption.get)
   }
 }
