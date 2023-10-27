@@ -34,6 +34,9 @@ lazy val examplesProject = internalProject(examplesProjectName)
     ),
   )
   .settings(protocSettings *)
+  .settings(
+    publish / skip := true
+  )
   .dependsOn(libProject)
 
 lazy val hexagonalLib = (project in file("."))
