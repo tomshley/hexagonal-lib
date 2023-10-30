@@ -1,7 +1,9 @@
 import sbt.file
 
 lazy val libProjectName = "hexagonal-lib"
-lazy val libServersProjectName = "hexagonal-lib-runmainasfuture"
+lazy val libServersCommonProjectName = "hexagonal-lib-runmainasfuture-common"
+lazy val libServersGRPCProjectName = "hexagonal-lib-runmainasfuture-grpc"
+lazy val libServersHttpProjectName = "hexagonal-lib-runmainasfuture-http"
 lazy val examplesProjectName = "hexagonal-lib-examples"
 lazy val protocSettings = Seq(
   Compile / PB.protoSources := Seq(
@@ -24,7 +26,29 @@ lazy val libProject = publishableProject(libProjectName)
   )
   .settings(protocSettings *)
 
-lazy val libServersProject = publishableProject(libServersProjectName)
+lazy val libServersCommonProject = publishableProject(libServersCommonProjectName)
+  .enablePlugins(LibProjectPlugin)
+  .settings(
+    name := libServersCommonProjectName,
+    organization := "com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture",
+    libraryDependencies ++= Seq(
+      // Warning: Under Construction
+    )
+  )
+  .settings(protocSettings *)
+
+lazy val libServersGRPCProject = publishableProject(libServersProjectName)
+  .enablePlugins(LibProjectPlugin)
+  .settings(
+    name := libServersProjectName,
+    organization := "com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture",
+    libraryDependencies ++= Seq(
+      // Warning: Under Construction
+    )
+  )
+  .settings(protocSettings *)
+
+lazy val libServersHTTPProject = publishableProject(libServersProjectName)
   .enablePlugins(LibProjectPlugin)
   .settings(
     name := libServersProjectName,

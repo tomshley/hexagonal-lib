@@ -18,7 +18,7 @@
 
 package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.grpc
 
-import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.core.ServerProperties
+import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.common.ServerProperties
 import io.grpc.{ManagedChannel, ManagedChannelBuilder}
 
 class TestGrpcClient(val serverProperties: ServerProperties) {

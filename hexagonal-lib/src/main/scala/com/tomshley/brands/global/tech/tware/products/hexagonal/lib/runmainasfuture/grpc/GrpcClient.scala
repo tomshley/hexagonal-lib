@@ -18,7 +18,7 @@
 
 package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.grpc
 
-import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.core.RunMainFutureSugar
+import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.common.RunMainFutureSugar
 
 import scala.concurrent.Future
 

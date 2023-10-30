@@ -16,7 +16,7 @@
  * @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
  */
 
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.core
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.common
 
 import akka.Done
 import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.simplelogger.SLogger
