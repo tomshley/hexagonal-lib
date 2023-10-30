@@ -20,7 +20,7 @@
 package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
 package config
 
-protected[lib] enum HexagonalConfigKeys(configBlockKey: HexagonalConfigBlockKey) {
+enum HexagonalConfigKeys(configBlockKey: HexagonalConfigBlockKey) {
   case I18N_DEFAULT_NAME extends HexagonalConfigKeys(HexagonalConfigBlockKey(HexagonalConfigBlocks.I18N, "defaultName", Some("strings")))
   case I18N_DEFAULT_FILE_EXT extends HexagonalConfigKeys(HexagonalConfigBlockKey(HexagonalConfigBlocks.I18N, "defaultExt", Some(".i18n")))
   case SERVERS_HOSTNAME extends HexagonalConfigKeys(HexagonalConfigBlockKey(HexagonalConfigBlocks.SERVERS, "hostname", Some("localhost")))
