@@ -23,3 +23,7 @@ class ConfigEnvOrFile(fileNameOption: Option[String] = None) {
   }
 }
 
+object ConfigEnvOrFile {
+  lazy val config: ConfigEnvOrFile = ConfigEnvOrFile()
+}
+

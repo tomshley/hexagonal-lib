@@ -20,7 +20,7 @@
 package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
 package i18n
 
-import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.config.ConfigKeys
+import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.config.HexagonalConfigKeys
 
 import java.util.{Locale, ResourceBundle}
 
@@ -33,7 +33,7 @@ class UTF8BundleControl extends ResourceBundle.Control {
     Seq(Format).asJava
   }
 
-  override def getFallbackLocale(baseName: String, locale: Locale) =
+  override def getFallbackLocale(baseName: String, locale: Locale): Locale =
     if locale == Locale.getDefault then null
     else Locale.getDefault
 
@@ -43,7 +43,7 @@ class UTF8BundleControl extends ResourceBundle.Control {
 
     // The below is an approximate copy of the default Java implementation
     def resourceName = {
-      lazy val defaultExt = ConfigKeys.I18N_DEFAULT_FILE_EXT.toValue
+      lazy val defaultExt = HexagonalConfigKeys.I18N_DEFAULT_FILE_EXT.toValue
       toResourceName(toBundleName(baseName, locale), defaultExt)
     }
 

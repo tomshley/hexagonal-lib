@@ -16,8 +16,7 @@
  * @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
  */
 
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
-package runmainasfuture
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.http
 
 import akka.Done
 import akka.actor.typed.ActorSystem
@@ -26,6 +25,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.Http.ServerBinding
 import akka.http.scaladsl.server.Directives.{complete, concat, get, path}
 import akka.http.scaladsl.server.Route
+import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.common.RunMainFutureSugar
 import org.joda.time.DateTime
 
 import scala.concurrent.Future

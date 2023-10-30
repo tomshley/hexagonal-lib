@@ -16,13 +16,26 @@
  * @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
  */
 
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.grpc
 
+import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.common.RunMainFutureSugar
+
+import scala.concurrent.Future
+
+// nb: this import is mandated by the addServices method
 import io.grpc.{ManagedChannel, ManagedChannelBuilder}
 
-class TestGrpcClient(val serverProperties: ServerProperties) {
-  lazy val channel: ManagedChannel = ManagedChannelBuilder
-    .forAddress(serverProperties.hostname, serverProperties.port)
-    .usePlaintext() // don't use encryption (for demo purposes)
-    .build
+trait GrpcClient extends RunMainFutureSugar[ManagedChannel, _] {
+  override lazy val serverCreation: Future[ManagedChannel] = {
+    val channel = ManagedChannelBuilder
+      .forAddress(serverProperties.hostname, serverProperties.port)
+      .usePlaintext() // don't use encryption (for demo purposes)
+      .build
+
+    channelStubs(channel)
+
+    Future(channel)
+  }
+
+  def channelStubs(channel: ManagedChannel): Unit
 }

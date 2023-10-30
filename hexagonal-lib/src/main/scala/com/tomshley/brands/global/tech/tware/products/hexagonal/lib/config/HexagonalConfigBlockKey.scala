@@ -20,9 +20,10 @@
 package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
 package config
 
-protected[lib] enum ConfigBlocks(blockName: String) {
-  case I18N extends ConfigBlocks("hexagonal.lib.i18n")
-  case SERVERS extends ConfigBlocks("hexagonal.lib.runmainasfuture")
-
-  def toBlockName: String = blockName
+protected[lib] class HexagonalConfigBlockKey(parentBlock: HexagonalConfigBlocks, keyName: String, defaultValueOption: Option[String] = None) {
+  override def toString: String = {
+    lazy val configValue: String = ConfigEnvOrFile.config.envOrElseConfig(Seq(parentBlock.toBlockName, keyName).mkString("."))
+    Option(configValue).filter(_.nonEmpty).getOrElse(defaultValueOption.getOrElse(""))
+  }
 }
+
