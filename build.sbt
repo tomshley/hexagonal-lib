@@ -1,6 +1,7 @@
 import sbt.file
 
 lazy val libProjectName = "hexagonal-lib"
+lazy val libServersProjectName = "hexagonal-lib-runmainasfuture"
 lazy val examplesProjectName = "hexagonal-lib-examples"
 lazy val protocSettings = Seq(
   Compile / PB.protoSources := Seq(
@@ -17,6 +18,17 @@ lazy val libProject = publishableProject(libProjectName)
   .settings(
     name := libProjectName,
     organization := "com.tomshley.brands.global.tech.tware.products.hexagonal.lib",
+    libraryDependencies ++= Seq(
+      // Warning: Under Construction
+    )
+  )
+  .settings(protocSettings *)
+
+lazy val libServersProject = publishableProject(libServersProjectName)
+  .enablePlugins(LibProjectPlugin)
+  .settings(
+    name := libServersProjectName,
+    organization := "com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture",
     libraryDependencies ++= Seq(
       // Warning: Under Construction
     )

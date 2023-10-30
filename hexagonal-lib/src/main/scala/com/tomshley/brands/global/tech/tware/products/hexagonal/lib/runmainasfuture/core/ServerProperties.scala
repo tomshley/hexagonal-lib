@@ -16,8 +16,7 @@
  * @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
  */
 
-package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
-package runmainasfuture
+package com.tomshley.brands.global.tech.tware.products.hexagonal.lib.runmainasfuture.core
 
 import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.config.HexagonalConfigKeys
 
