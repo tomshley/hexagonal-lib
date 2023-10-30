@@ -21,17 +21,19 @@ package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
 package i18n
 
 import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.basics.PimpedType
-import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.config.ConfigKeys
+import com.tomshley.brands.global.tech.tware.products.hexagonal.lib.config.HexagonalConfigKeys
 
 import java.text.MessageFormat
 import java.util.ResourceBundle
 
 sealed trait LocalizedStringType extends PimpedType[String] {
-  private lazy val defaultName = ConfigKeys.I18N_DEFAULT_NAME.toValue
+  private lazy val defaultName = HexagonalConfigKeys.I18N_DEFAULT_NAME.toValue
   val underlying: String
 
   def apply(underlying: String, args: Any*)(implicit lang: Lang): String = {
-    (new MessageFormat(raw(underlying), lang.locale).format(args.map(_.asInstanceOf[java.lang.Object]).toArray)).toString
+    new MessageFormat(raw(underlying), lang.locale).format {
+      args.map(_.asInstanceOf[java.lang.Object]).toArray
+    }
   }
 
   def raw(message: String)(implicit lang: Lang): String = {
