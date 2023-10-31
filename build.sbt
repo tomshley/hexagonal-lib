@@ -88,4 +88,7 @@ lazy val hexagonalLib = (project in file("."))
     libServersHttpProject,
     examplesProject
   )
+  .settings(
+    publish / skip := true
+  )
   .settings(protocSettings *)
