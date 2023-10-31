@@ -64,13 +64,24 @@ lazy val libServersHttpProject = publishableProject(libServersHttpProjectName)
   .settings(protocSettings *)
 
 lazy val examplesProject = internalProject(examplesProjectName)
-  .enablePlugins(CoreProjectPlugin, ProtocPlugin)
+  .enablePlugins(LibProjectPlugin, ProtocPlugin)
   .dependsOn(libProject)
   .settings(
     name := examplesProjectName,
     organization := "com.tomshley.brands.global.tech.tware.products.hexagonal.examples",
     libraryDependencies ++= Seq(
-      // Warning: Under Construction
+      "com.typesafe.akka" %% "akka-actor" % "2.9.0-M2",
+      "io.grpc" % "grpc-netty" % "1.59.0",
+      //       Note: the compiler plugin needs to be added to plugins.sbt "com.thesamet.scalapb" %% "compilerplugin" % scalaPBVersion,
+      "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % "0.11.13",
+      "com.typesafe.akka" %% "akka-protobuf-v3" % "2.9.0-M2",
+      "com.typesafe.akka" %% "akka-actor-typed" % "2.9.0-M2",
+      "com.typesafe.akka" %% "akka-stream" % "2.9.0-M2",
+      "com.typesafe.akka" %% "akka-http" % "10.6.0-M1",
+      "com.typesafe.akka" %% "akka-http-testkit" % "10.6.0-M1" % Test,
+      "com.typesafe.akka" %% "akka-actor-testkit-typed" %  "2.9.0-M2" % Test,
+      "com.typesafe.akka" %% "akka-testkit" % "2.9.0-M2" % Test,
+      "org.scalatest" %% "scalatest" % "3.2.15" % Test
     ),
   )
   .settings(protocSettings *)
