@@ -20,7 +20,7 @@
 package com.tomshley.brands.global.tech.tware.products.hexagonal.lib
 package config
 
-protected[lib] enum HexagonalConfigBlocks(blockName: String) {
+enum HexagonalConfigBlocks(blockName: String) {
   case I18N extends HexagonalConfigBlocks("hexagonal.lib.i18n")
   case SERVERS extends HexagonalConfigBlocks("hexagonal.lib.runmainasfuture")
 
