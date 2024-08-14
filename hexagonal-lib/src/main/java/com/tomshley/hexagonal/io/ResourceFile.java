@@ -17,7 +17,7 @@
  *
  */
 
-package com.tomshley.hexagonal.io;
+package com.tomshley.hexagonal.lib.io;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

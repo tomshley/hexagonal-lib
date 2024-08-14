@@ -17,7 +17,7 @@
  *
  */
 
-package com.tomshley.hexagonal.util;
+package com.tomshley.hexagonal.lib.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;

@@ -17,10 +17,10 @@
  *
  */
 
-package com.tomshley.hexagonal.format;
+package com.tomshley.hexagonal.lib.format;
 
-import com.tomshley.hexagonal.io.ResourceFile;
-import com.tomshley.hexagonal.util.JavaEnumUtils;
+import com.tomshley.hexagonal.lib.io.ResourceFile;
+import com.tomshley.hexagonal.lib.util.JavaEnumUtils;
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
