@@ -17,7 +17,7 @@
  *
  */
 
-package com.tomshley.hexagonal.io;
+package com.tomshley.hexagonal.lib.io;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

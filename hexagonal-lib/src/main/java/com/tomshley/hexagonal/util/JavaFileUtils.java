@@ -17,12 +17,12 @@
  *
  */
 
-package com.tomshley.hexagonal.util;
+package com.tomshley.hexagonal.lib.util;
 
-import com.tomshley.hexagonal.format.FileFormat;
-import com.tomshley.hexagonal.io.LocalFile;
-import com.tomshley.hexagonal.io.ResourceFile;
-import com.tomshley.hexagonal.io.TempFile;
+import com.tomshley.hexagonal.lib.format.FileFormat;
+import com.tomshley.hexagonal.lib.io.LocalFile;
+import com.tomshley.hexagonal.lib.io.ResourceFile;
+import com.tomshley.hexagonal.lib.io.TempFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtil;
 import org.apache.commons.lang3.StringUtils;

@@ -10,7 +10,7 @@ lazy val libProject = publishableProject(libProjectName)
     ProjectStructurePlugin,
     ValueAddProjectPlugin
   )
-  .settings(name := libProjectName, organization := hexagonalProjectOrgName, )
+  .settings(name := libProjectName, organization := hexagonalProjectOrgName)
 
 lazy val hexagonalLib = (project in file("."))
   .enablePlugins(
