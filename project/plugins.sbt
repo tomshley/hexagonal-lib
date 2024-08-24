@@ -1,3 +1,12 @@
-addSbtPlugin("com.tomshley.brands.global.tech.tware.products.hexagonal.plugins" % "hexagonal-plugin-projecttemplate" % "0.1.0-SNAPSHOT")
-addSbtPlugin("com.tomshley.brands.global.tech.tware.products.hexagonal.plugins" % "hexagonal-plugin-projectsettings" % "0.1.0-SNAPSHOT")
-addSbtPlugin("com.tomshley.brands.global.tech.tware.products.hexagonal.plugins" % "hexagonal-plugin-projectstructure" % "0.1.0-SNAPSHOT")
+resolvers +=
+  "Artifactory" at "https://tomshleytech.jfrog.io/artifactory/hexagonal-sbt/"
+
+addSbtPlugin(
+  "com.tomshley.hexagonal" % "hexagonal-plugin-projecttemplate" % "0.0.8"
+)
+addSbtPlugin(
+  "com.tomshley.hexagonal" % "hexagonal-plugin-projectsettings" % "0.0.8"
+)
+addSbtPlugin(
+  "com.tomshley.hexagonal" % "hexagonal-plugin-projectstructure" % "0.0.8"
+)

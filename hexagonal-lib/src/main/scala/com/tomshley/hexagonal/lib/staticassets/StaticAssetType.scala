@@ -83,6 +83,7 @@ enum StaticAssetType(mimeTypeValue: String) {
   case CSS extends StaticAssetType("text/css")
   case PNG extends StaticAssetType("image/png")
   case JPEG extends StaticAssetType("image/jpeg")
+  case JPG extends StaticAssetType("image/jpeg")
   case WOFF2 extends StaticAssetType("font/woff2")
 
   def toExtension: String = toString.toLowerCase
