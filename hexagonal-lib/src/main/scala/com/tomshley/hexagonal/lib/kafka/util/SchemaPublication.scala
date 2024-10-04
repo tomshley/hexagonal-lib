@@ -19,11 +19,13 @@ object SchemaPublication {
                                        retriesNum: Int,
                                        retriesInterval: Duration)
   object TopicSchemaSettings {
-    def apply(topicSchema: Map[String, AvroSchema],
-              registryURL: Option[String] = Option.empty,
-              identityMapCapacity: Option[Int] = Option.empty,
-              retriesNum: Option[Int] = Option.empty,
-              retriesInterval: Option[Duration] = Option.empty): TopicSchemaSettings = {
+    def apply(
+      topicSchema: Map[String, AvroSchema],
+      registryURL: Option[String] = Option.empty,
+      identityMapCapacity: Option[Int] = Option.empty,
+      retriesNum: Option[Int] = Option.empty,
+      retriesInterval: Option[Duration] = Option.empty
+    ): TopicSchemaSettings = {
       new TopicSchemaSettings(
         topicSchema,
         registryURL.getOrElse("http://localhost:8081"),
@@ -35,7 +37,9 @@ object SchemaPublication {
   }
   private val logger: Logger = LoggerFactory.getLogger(getClass)
 
-  def publishWithRetry(topicSchemaSettings: TopicSchemaSettings): immutable.Iterable[Unit] = {
+  def publishWithRetry(
+    topicSchemaSettings: TopicSchemaSettings
+  ): immutable.Iterable[Unit] = {
     val schemaRegistryClient = new CachedSchemaRegistryClient(
       topicSchemaSettings.registryURL,
       topicSchemaSettings.identityMapCapacity
@@ -65,13 +69,15 @@ object SchemaPublication {
   )(countdown: Int, interval: Duration, f: => Unit): Try[Unit] = {
     Try(f) match {
       case result @ Success(_) =>
-        logger info "Successfully call the Schema Registry."
+        logger.info("Successfully call the Schema Registry.")
         result
       case result @ Failure(_) if countdown <= 0 =>
-        logger error "Fail to call the Schema Registry for the last time."
+        logger.error("Fail to call the Schema Registry for the last time.")
         result
       case Failure(_) if countdown > 0 =>
-        logger error s"Fail to call the Schema Registry, retry in ${interval.toSeconds} secs."
+        logger.error(
+          s"Fail to call the Schema Registry, retry in ${interval.toSeconds} secs."
+        )
         Thread.sleep(interval.toMillis)
         retryCallSchemaRegistry(logger)(countdown - 1, interval, f)
     }

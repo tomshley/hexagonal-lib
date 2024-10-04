@@ -25,23 +25,26 @@ import org.apache.pekko.management.cluster.bootstrap.ClusterBootstrap
 import org.apache.pekko.management.scaladsl.PekkoManagement
 import org.slf4j.{Logger, LoggerFactory}
 
+import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
 object ManagedClusterService {
   def apply(serviceName:String, body: (system:ActorSystem[?]) => Unit): Unit = {
     def logger: Logger = LoggerFactory.getLogger(s"$serviceName-ManagedClusterService")
 
-    val system =
-      ActorSystem[Nothing](Behaviors.empty, serviceName)
+    ActorSystem[Nothing](Behaviors.setup[Nothing] { context =>
+      try {
+        bootstrap(context.system)
+        body(context.system)
+      } catch {
+        case NonFatal(e) =>
+          logger.error("Terminating due to initialization failure.", e)
+          context.system.terminate()
+      }
 
-    try {
-      bootstrap(system)
-      body(system)
-    } catch {
-      case NonFatal(e) =>
-        logger.error("Terminating due to initialization failure.", e)
-        system.terminate()
-    }
+      Behaviors.empty
+    }, serviceName)
+
   }
 
   private def bootstrap(system: ActorSystem[?]): Unit = {

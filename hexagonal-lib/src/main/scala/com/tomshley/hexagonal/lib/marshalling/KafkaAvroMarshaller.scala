@@ -10,7 +10,7 @@ trait KafkaAvroMarshaller {
       val ser = new KafkaAvroSerializer()
 
       override def configure(
-                              configs: java.util.Map[String, _],
+                              configs: java.util.Map[String, ?],
                               isKey: Boolean
                             ): Unit =
         ser.configure(configs, isKey)

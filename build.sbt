@@ -1,27 +1,19 @@
 import sbt.file
+lazy val gitlabCIProjectId = 61841284
 
 lazy val libProjectName = "hexagonal-lib"
 lazy val hexagonalProjectOrgName = "com.tomshley.hexagonal"
-
+lazy val publishSettings = Seq(
+  ThisBuild / resolvers ++= Registry.additionalResolvers(gitlabCIProjectId),
+  ThisBuild / credentials += Registry.credentials(
+    Some((ThisBuild / baseDirectory).value / ".credentials.gitlab")
+  ),
+  ThisBuild / publishTo := Registry.publishToGitlab(gitlabCIProjectId)
+)
 lazy val libProject = publishableProject(libProjectName)
-  .enablePlugins(
-    ValueAddProjectPlugin
-  )
-  .settings(
-    resolvers +=
-      "Artifactory" at "https://tomshleytech.jfrog.io/artifactory/hexagonal-sbt/",
-    organization := hexagonalProjectOrgName,
-    version := "0.0.8",
-    publishTo := {
-      val buildInfo =
-        if (version.value.endsWith("SNAPSHOT"))
-          ";build.timestamp=" + new java.util.Date().getTime
-        else ""
-      Some(
-        "Artifactory Realm" at s"https://tomshleytech.jfrog.io/artifactory/tomshley-brands-global-tware-tech-products-hexagonal-sbt${buildInfo}"
-      )
-    }
-  )
+  .enablePlugins(ValueAddProjectPlugin)
+  .settings(organization := hexagonalProjectOrgName, version := "0.0.10")
+  .settings(publishSettings *)
 
 lazy val hexagonalLib = (project in file("."))
   .enablePlugins(
@@ -31,3 +23,4 @@ lazy val hexagonalLib = (project in file("."))
   )
   .aggregate(libProject)
   .settings(publish / skip := true)
+  .settings(publishSettings *)

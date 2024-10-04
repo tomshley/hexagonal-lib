@@ -16,7 +16,8 @@ project/project
 project/target
 .sbt/
 venv/
-.tware.resolver.*.cred
+.credentials
+.credentials.*
 cache.config
 credentials.config
 endpoint.config
