@@ -2,15 +2,11 @@ package com.tomshley.hexagonal.lib.reqreply
 
 import org.apache.pekko.actor.typed.scaladsl.Behaviors
 import org.apache.pekko.actor.typed.{ActorRef, ActorSystem, Behavior}
-import org.apache.pekko.cluster.sharding.typed.scaladsl.{
-  ClusterSharding,
-  Entity,
-  EntityContext,
-  EntityTypeKey
-}
+import org.apache.pekko.cluster.sharding.typed.scaladsl.{ClusterSharding, Entity, EntityContext, EntityTypeKey}
 import org.apache.pekko.pattern.StatusReply
 
 import java.time.Instant
+import scala.concurrent.ExecutionContextExecutor
 
 object Idempotent {
   sealed trait Command
@@ -140,6 +136,8 @@ object Idempotent {
     EntityTypeKey[Command]("Idempotent")
 
   def init(system: ActorSystem[?]): Unit = {
+    implicit val ec: ExecutionContextExecutor = system.executionContext
+
     val behaviorFactory: EntityContext[Command] => Behavior[Command] = {
       entityContext =>
         Idempotent(entityContext.entityId)
