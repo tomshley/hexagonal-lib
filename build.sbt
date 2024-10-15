@@ -12,7 +12,11 @@ lazy val publishSettings = Seq(
 )
 lazy val libProject = publishableProject(libProjectName)
   .enablePlugins(ValueAddProjectPlugin)
-  .settings(organization := hexagonalProjectOrgName, version := "0.0.10")
+  .settings(
+    organization := hexagonalProjectOrgName,
+    version := "0.0.12",
+    publishConfiguration := publishConfiguration.value.withOverwrite(true)
+  )
   .settings(publishSettings *)
 
 lazy val hexagonalLib = (project in file("."))
