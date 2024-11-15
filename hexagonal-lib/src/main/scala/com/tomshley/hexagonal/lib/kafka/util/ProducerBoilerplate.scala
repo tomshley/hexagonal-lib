@@ -7,7 +7,7 @@ import org.apache.pekko.kafka.ProducerSettings
 import org.apache.pekko.kafka.scaladsl.SendProducer
 
 object ProducerBoilerplate {
-  def init(topic: String, system: ActorSystem[?]): SendProducer[String, Array[Byte]] = {
+  def init(system: ActorSystem[?]): SendProducer[String, Array[Byte]] = {
     createProducer(system)
   }
 
