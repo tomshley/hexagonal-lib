@@ -14,7 +14,7 @@ lazy val libProject = publishableProject(libProjectName)
   .enablePlugins(ValueAddProjectPlugin)
   .settings(
     organization := hexagonalProjectOrgName,
-    version := "0.0.14"
+    version := "0.0.15"
   )
   .settings(publishSettings *)
 
