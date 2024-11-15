@@ -136,7 +136,7 @@ object Idempotent {
     EntityTypeKey[Command]("Idempotent")
 
   def init(system: ActorSystem[?]): Unit = {
-    implicit val ec: ExecutionContextExecutor = system.executionContext
+    given ec: ExecutionContextExecutor = system.executionContext
 
     val behaviorFactory: EntityContext[Command] => Behavior[Command] = {
       entityContext =>

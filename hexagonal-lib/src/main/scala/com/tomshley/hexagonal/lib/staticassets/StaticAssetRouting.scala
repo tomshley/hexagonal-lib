@@ -38,7 +38,7 @@ trait StaticAssetRouting extends FilesUtil {
             extractExecutionContext { implicit executor =>
               {
                 onComplete {
-                  implicit val materializer: actor.ActorSystem =
+                  given materializer: actor.ActorSystem =
                     system.classicSystem
 
                   /*

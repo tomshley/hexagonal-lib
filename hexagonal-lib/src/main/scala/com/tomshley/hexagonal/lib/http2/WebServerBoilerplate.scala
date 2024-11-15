@@ -41,8 +41,8 @@ object WebServerBoilerplate extends Http2Boilerplate[Seq[Route]] {
                      binding: Seq[Route]): Future[Http.ServerBinding] = {
 
     import org.apache.pekko.actor.typed.scaladsl.adapter.*
-    implicit val classicSystem: actor.ActorSystem = system.toClassic
-    implicit val ec: ExecutionContextExecutor = system.executionContext
+    given classicSystem: actor.ActorSystem = system.toClassic
+    given ec: ExecutionContextExecutor = system.executionContext
 
     Http()
       .newServerAt(interface, port)

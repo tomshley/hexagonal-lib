@@ -36,9 +36,8 @@ object GrpcServerBoilerplate
     system: ActorSystem[?],
     service: model.HttpRequest => scala.concurrent.Future[model.HttpResponse]
   ): Future[Http.ServerBinding] = {
-    implicit val sys: ActorSystem[?] = system
-    implicit val ec: ExecutionContext =
-      system.executionContext
+    given sys: ActorSystem[?] = system
+    given ec:ExecutionContext = system.executionContext
 
     val bound =
       Http()
