@@ -1,5 +1,11 @@
 import sbt.file
+
+import java.time.Instant
 lazy val gitlabCIProjectId = 61841284
+
+
+val versionFileValue = settingKey[String]("value from VERSION")
+
 
 lazy val libProjectName = "hexagonal-lib"
 lazy val hexagonalProjectOrgName = "com.tomshley.hexagonal"
@@ -11,18 +17,20 @@ lazy val publishSettings = Seq(
   ThisBuild / publishTo := Registry.publishToGitlab(gitlabCIProjectId)
 )
 lazy val libProject = publishableProject(libProjectName)
-  .enablePlugins(ValueAddProjectPlugin)
+  .enablePlugins(ValueAddProjectPlugin, VersionFilePlugin)
   .settings(
     organization := hexagonalProjectOrgName,
-    version := "0.0.16"
+    version := {
+      val versionFile = (ThisBuild / baseDirectory).value / "VERSION"
+      val versionFileContents: Seq[String] = if (versionFile.exists()) IO.readLines(versionFile) else if (version.value.nonEmpty) Seq(version.value) else Seq.empty[String]
+      versionFileContents.filter(s => !s.isBlank).mkString("-").trim.stripPrefix("v")
+    }
   )
   .settings(publishSettings *)
 
 lazy val hexagonalLib = (project in file("."))
   .enablePlugins(
-    ProjectTemplatePlugin,
-    ProjectsHelperPlugin,
-    ProjectStructurePlugin
+    ProjectsHelperPlugin
   )
   .aggregate(libProject)
   .settings(publish / skip := true)
