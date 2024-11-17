@@ -28,26 +28,12 @@ import org.slf4j.{Logger, LoggerFactory}
 import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
-object ManagedClusterService {
-  def apply(serviceName:String, body: (system:ActorSystem[?]) => Unit): Unit = {
-    def logger: Logger = LoggerFactory.getLogger(s"$serviceName-ManagedClusterService")
+object ManagedPekkoClusterMain extends ManagedMain {
+  override protected[lib] lazy val name: String = "ManagedPekkoClusterMain"
 
-    ActorSystem[Nothing](Behaviors.setup[Nothing] { context =>
-      try {
-        bootstrap(context.system)
-        body(context.system)
-      } catch {
-        case NonFatal(e) =>
-          logger.error("Terminating due to initialization failure.", e)
-          context.system.terminate()
-      }
+  override protected[lib] def bootstrap(system: ActorSystem[_], logger: Logger): Unit = {
+    super.bootstrap(system, logger)
 
-      Behaviors.empty
-    }, serviceName)
-
-  }
-
-  private def bootstrap(system: ActorSystem[?]): Unit = {
     PekkoManagement(system).start()
     ClusterBootstrap(system).start()
   }
