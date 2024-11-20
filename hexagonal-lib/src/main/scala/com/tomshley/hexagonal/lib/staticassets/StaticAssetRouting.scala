@@ -17,7 +17,7 @@ trait StaticAssetRouting extends FilesUtil {
   private def matchFileExtension(path: String): Option[StaticAssetType] = {
     StaticAssetType.values
       .find(assetType => {
-        s".${assetType.toExtension}" == nameAndExtensionPair(path)(1)
+        s".${assetType.toExtension}" == nameAndExtensionPair(path)._2
       })
   }
   def getStaticAssetRoute(system: ActorSystem[?]): Route =
@@ -38,7 +38,7 @@ trait StaticAssetRouting extends FilesUtil {
             extractExecutionContext { implicit executor =>
               {
                 onComplete {
-                  implicit val materializer: actor.ActorSystem =
+                  given materializer: actor.ActorSystem =
                     system.classicSystem
 
                   /*
@@ -75,7 +75,7 @@ trait StaticAssetRouting extends FilesUtil {
                       HttpResponse(
                         entity = HttpEntity(
                           matchedHTTPAssetType.get.toContentType,
-                          value.utf8String
+                          value
                         )
                       )
                     )

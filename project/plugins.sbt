@@ -1,3 +1,6 @@
-addSbtPlugin("com.tomshley.brands.global.tech.tware.products.hexagonal.plugins" % "hexagonal-plugin-projecttemplate" % "0.1.0-SNAPSHOT")
-addSbtPlugin("com.tomshley.brands.global.tech.tware.products.hexagonal.plugins" % "hexagonal-plugin-projectsettings" % "0.1.0-SNAPSHOT")
-addSbtPlugin("com.tomshley.brands.global.tech.tware.products.hexagonal.plugins" % "hexagonal-plugin-projectstructure" % "0.1.0-SNAPSHOT")
+resolvers +=
+  "gitlab-maven" at "https://gitlab.com/api/v4/projects/61841284/packages/maven"
+
+addSbtPlugin(
+  "com.tomshley.hexagonal" % "hexagonal-plugin-projectsettings" % "0.0.16"
+)

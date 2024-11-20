@@ -2,20 +2,16 @@ package com.tomshley.hexagonal.lib.reqreply
 
 import org.apache.pekko.actor.typed.scaladsl.Behaviors
 import org.apache.pekko.actor.typed.{ActorRef, ActorSystem, Behavior}
-import org.apache.pekko.cluster.sharding.typed.scaladsl.{
-  ClusterSharding,
-  Entity,
-  EntityContext,
-  EntityTypeKey
-}
+import org.apache.pekko.cluster.sharding.typed.scaladsl.{ClusterSharding, Entity, EntityContext, EntityTypeKey}
 import org.apache.pekko.pattern.StatusReply
 
 import java.time.Instant
+import scala.concurrent.ExecutionContextExecutor
 
 object Idempotent {
-  sealed trait Command
+  sealed trait Command extends CborSerializable
 
-  sealed trait Event
+  sealed trait Event extends CborSerializable
 
   final case class SingleRequest(headers: Option[Map[String, String]],
                                  body: Option[String],
@@ -35,7 +31,7 @@ object Idempotent {
                          requestHeaders: Option[Map[String, String]],
                          requestBody: Option[String],
                          replyHeaders: Option[Map[String, String]],
-                         replyBody: Option[String]) {
+                         replyBody: Option[String]) extends CborSerializable {
     def newRequest(idempotencyKey: String,
                    requestHeaders: Option[Map[String, String]],
                    requestBody: Option[String]): State = {
@@ -119,7 +115,7 @@ object Idempotent {
                            isIdempotent: Boolean,
                            repliedOn: Option[Instant],
                            replyHeaders: Option[Map[String, String]],
-                           replyBody: Option[String])
+                           replyBody: Option[String]) extends CborSerializable
 
   object State {
     val empty: State =
@@ -140,6 +136,8 @@ object Idempotent {
     EntityTypeKey[Command]("Idempotent")
 
   def init(system: ActorSystem[?]): Unit = {
+    given ec: ExecutionContextExecutor = system.executionContext
+
     val behaviorFactory: EntityContext[Command] => Behavior[Command] = {
       entityContext =>
         Idempotent(entityContext.entityId)

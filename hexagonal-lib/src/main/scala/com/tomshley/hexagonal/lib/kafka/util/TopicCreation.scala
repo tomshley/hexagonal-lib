@@ -55,20 +55,20 @@ object TopicCreation {
     Try(createTopicsResult.all().get(timeOut, timeUnit)) match {
 
       case Failure(ex) if ex.getCause.isInstanceOf[TopicExistsException] =>
-        logger info "Topic creation stage completed. (Topics already created)"
+        logger.info("Topic creation stage completed. (Topics already created)")
 
       case failure @ Failure(_: InterruptedException | _: ExecutionException) =>
-        logger error "The topic creation failed to complete"
+        logger.error("The topic creation failed to complete")
         failure.exception.printStackTrace()
         sys.exit(2)
 
       case Failure(exception) =>
-        logger error "The following exception occurred during the topic creation"
+        logger.error("The following exception occurred during the topic creation")
         exception.printStackTrace()
         sys.exit(3)
 
       case Success(_) =>
-        logger info "Topic creation stage completed."
+        logger.info("Topic creation stage completed.")
     }
 
     client

@@ -4,19 +4,16 @@ lazy val libProjectName = "hexagonal-lib"
 lazy val hexagonalProjectOrgName = "com.tomshley.hexagonal"
 
 lazy val libProject = publishableProject(libProjectName)
-  .enablePlugins(
-    ProjectTemplatePlugin,
-    HexagonalProjectPlugin,
-    ProjectStructurePlugin,
-    ValueAddProjectPlugin
+  .enablePlugins(ValueAddProjectPlugin, VersionFilePlugin, PublishGitLabPlugin)
+  .settings(
+    organization := hexagonalProjectOrgName,
+    publishGitLabProjectId := 61841284,
+    libraryDependencies += "com.twilio.sdk" % "twilio" % "10.4.1"
   )
-  .settings(name := libProjectName, organization := hexagonalProjectOrgName)
 
 lazy val hexagonalLib = (project in file("."))
   .enablePlugins(
-    ProjectTemplatePlugin,
-    HexagonalProjectPlugin,
-    ProjectStructurePlugin
+    ProjectsHelperPlugin
   )
   .aggregate(libProject)
   .settings(publish / skip := true)

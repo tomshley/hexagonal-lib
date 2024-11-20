@@ -19,14 +19,19 @@
 
 package com.tomshley.hexagonal.lib.http2
 
+import org.apache.pekko.actor
 import org.apache.pekko.actor.typed.ActorSystem
 import org.apache.pekko.http.scaladsl.Http
-import org.apache.pekko.http.scaladsl.server.Directives.{complete, concat, get, path}
+import org.apache.pekko.http.scaladsl.server.Directives.{
+  complete,
+  concat,
+  get,
+  path
+}
 import org.apache.pekko.http.scaladsl.server.Route
 
 import java.time.Instant
-import scala.concurrent.{ExecutionContext, Future}
-import scala.io.StdIn
+import scala.concurrent.{ExecutionContextExecutor, Future}
 
 object WebServerBoilerplate extends Http2Boilerplate[Seq[Route]] {
 
@@ -34,26 +39,17 @@ object WebServerBoilerplate extends Http2Boilerplate[Seq[Route]] {
                      port: Int,
                      system: ActorSystem[?],
                      binding: Seq[Route]): Future[Http.ServerBinding] = {
-    implicit val sys: ActorSystem[?] = system
-    implicit val ec: ExecutionContext =
-      system.executionContext
 
-    val bindingFuture =
-      Http()
-        .newServerAt(interface, port)
-        .bind(concat(Seq(get {
-          path("heartbeat") {
-            complete(Instant.now().toString)
-          }
-        }) ++ binding: _*))
+    import org.apache.pekko.actor.typed.scaladsl.adapter.*
+    given classicSystem: actor.ActorSystem = system.toClassic
+    given ec: ExecutionContextExecutor = system.executionContext
 
-    println(
-      s"Server now online. Please navigate to http://$interface:$port/home\nPress RETURN to stop..."
-    )
-    StdIn.readLine() // let it run until user presses return
-    bindingFuture
-      .flatMap(_.unbind()) // trigger unbinding from the port
-      .onComplete(_ => system.terminate()) // and shutdown when done
-    bindingFuture
+    Http()
+      .newServerAt(interface, port)
+      .bind(concat(Seq(get {
+        path("heartbeat") {
+          complete(Instant.now().toString)
+        }
+      }) ++ binding *))
   }
 }
