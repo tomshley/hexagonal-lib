@@ -6,17 +6,20 @@ import org.apache.pekko.projection.eventsourced.EventEnvelope as EventSourcedEve
 import org.apache.pekko.persistence.typed.PersistenceId
 import scalapb.GeneratedMessage
 
-final case class KafkaKeyMessageEnvelope(serviceName:String, key: String, pbValue: GeneratedMessage) {
+@deprecated
+val KafkaKeyMessageEnvelope = KafkaKeyProtoMessageEnvelope
+
+final case class KafkaKeyProtoMessageEnvelope(serviceName:String, key: String, pbValue: GeneratedMessage) {
   lazy val messageBytes: Array[Byte] = ScalaPBAny.pack(pbValue, serviceName).toByteArray
 }
 
-object KafkaKeyMessageEnvelope {
-  def apply(serviceName:String, eventsourcedEnvelope: EventSourcedEventEnvelope[?], pbValue: GeneratedMessage) = new KafkaKeyMessageEnvelope(
+object KafkaKeyProtoMessageEnvelope {
+  def apply(serviceName:String, eventsourcedEnvelope: EventSourcedEventEnvelope[?], pbValue: GeneratedMessage) = new KafkaKeyProtoMessageEnvelope(
     serviceName,
     PersistenceId.extractEntityId(eventsourcedEnvelope.persistenceId),
     pbValue
   )
-  def apply(serviceName:String, persistenceQueryEnvelope: PersistenceQueryEventEnvelope[?], pbValue: GeneratedMessage) = new KafkaKeyMessageEnvelope(
+  def apply(serviceName:String, persistenceQueryEnvelope: PersistenceQueryEventEnvelope[?], pbValue: GeneratedMessage) = new KafkaKeyProtoMessageEnvelope(
     serviceName,
     PersistenceId.extractEntityId(persistenceQueryEnvelope.persistenceId),
     pbValue

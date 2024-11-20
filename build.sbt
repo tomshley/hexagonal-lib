@@ -7,7 +7,9 @@ lazy val libProject = publishableProject(libProjectName)
   .enablePlugins(ValueAddProjectPlugin, VersionFilePlugin, PublishGitLabPlugin)
   .settings(
     organization := hexagonalProjectOrgName,
-    publishGitLabProjectId := 61841284
+    publishGitLabProjectId := 61841284,
+    publishConfiguration := publishConfiguration.value.withOverwrite(true),
+    libraryDependencies += "com.twilio.sdk" % "twilio" % "10.4.1"
   )
 
 lazy val hexagonalLib = (project in file("."))
