@@ -11,12 +11,12 @@ import scala.annotation.tailrec
 import scala.concurrent.{Future, Promise}
 
 protected[util] trait CreateProducer[K, V] {
-  private val producerInstance: Promise[Any] = Promise()
+  private val producerInstance: Promise[SendProducer[K, V]] = Promise()
 
   private def producerInstanceMaybe = producerInstance.future.value.flatMap(_.toOption)
 
   @tailrec
-  final def init(system: ActorSystem[?]): Any = {
+  final def init(system: ActorSystem[?]): SendProducer[K, V] = {
     producerInstanceMaybe match
       case Some(value) => value
       case None =>
@@ -28,8 +28,8 @@ protected[util] trait CreateProducer[K, V] {
 
   def producerSettings(system: ActorSystem[?]): ProducerSettings[K, V]
 
-  private def createProducer(system: ActorSystem[?]): Any = {
-    given ps:ProducerSettings[K, V] = producerSettings(system)
+  private def createProducer(system: ActorSystem[?]): SendProducer[K, V] = {
+    given ps: ProducerSettings[K, V] = producerSettings(system)
     val sendProducer = SendProducer(ps)(system)
     CoordinatedShutdown(system).addTask(CoordinatedShutdown.PhaseBeforeActorSystemTerminate, "close-sendProducer") { () => sendProducer.close() }
     sendProducer
