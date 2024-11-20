@@ -8,7 +8,6 @@ lazy val libProject = publishableProject(libProjectName)
   .settings(
     organization := hexagonalProjectOrgName,
     publishGitLabProjectId := 61841284,
-    publishConfiguration := publishConfiguration.value.withOverwrite(true),
     libraryDependencies += "com.twilio.sdk" % "twilio" % "10.4.1"
   )
 
