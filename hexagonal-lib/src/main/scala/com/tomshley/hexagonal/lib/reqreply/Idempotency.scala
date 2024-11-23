@@ -1,7 +1,7 @@
 package com.tomshley.hexagonal.lib.reqreply
 
-import com.tomshley.hexagonal.lib.reqreply.models.IdempotentRequestId
-import com.tomshley.hexagonal.lib.reqreply.models.IdempotentRequestId.IdempotentRequestExpired
+import com.tomshley.hexagonal.lib.reqreply.models.ExpiringValue
+import com.tomshley.hexagonal.lib.reqreply.models.ExpiringValue.ExpiringValueInvalid
 import org.apache.pekko.actor.typed.ActorSystem
 import org.apache.pekko.cluster.sharding.typed.scaladsl.ClusterSharding
 import org.apache.pekko.util.Timeout
@@ -23,12 +23,12 @@ class Idempotency(system: ActorSystem[?]) {
     )
 
   def reqReply(
-    requestId: IdempotentRequestId,
-    responseBodyCallback: => Future[Idempotency.RequestReply]
+                requestId: ExpiringValue,
+                responseBodyCallback: => Future[Idempotency.RequestReply]
   ): Future[Idempotency.RequestReply] = {
     if (requestId.isExpired) {
       Future.failed(
-        new IdempotentRequestExpired("You've made an expired request")
+        new ExpiringValueInvalid("You've made an expired request")
       )
     } else {
       val idempotentEntityRef =

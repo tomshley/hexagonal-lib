@@ -3,13 +3,13 @@ package  com.tomshley.hexagonal.lib.reqreply.forms
 import com.tomshley.hexagonal.lib.marshalling.JsonMarshaller
 import com.tomshley.hexagonal.lib.reqreply.forms.exceptions.FormFieldException
 import com.tomshley.hexagonal.lib.reqreply.forms.exceptions.models.FormFieldErrorValidationListEnvelope
-import com.tomshley.hexagonal.lib.reqreply.forms.models.{FormFieldNames, NamedValidation}
+import com.tomshley.hexagonal.lib.reqreply.forms.models.{NamedValidation, ValidFormFieldNames}
 import org.apache.pekko.http.scaladsl.model.*
 import org.apache.pekko.http.scaladsl.model.StatusCodes.*
 import org.apache.pekko.http.scaladsl.server.ValidationRejection
 
 sealed trait RejectionToErrorEnvelope {
-  protected def errorEnvelopeFromValidationRejections[T <: FormFieldNames](formFieldNames: T, validationRejections: Seq[ValidationRejection]): ErrorEnvelope = {
+  protected def errorEnvelopeFromValidationRejections[T <: ValidFormFieldNames](formFieldNames: T, validationRejections: Seq[ValidationRejection]): ErrorEnvelope = {
     ErrorEnvelope(validationRejections
       .filter(
         _.cause match
@@ -53,7 +53,7 @@ final case class ErrorEnvelope(
                               )
 
 object ErrorEnvelope extends RejectionToErrorEnvelope {
-  def apply[T <: FormFieldNames](formFieldNames: T, validationRejections: Seq[ValidationRejection]): ErrorEnvelope = {
+  def apply[T <: ValidFormFieldNames](formFieldNames: T, validationRejections: Seq[ValidationRejection]): ErrorEnvelope = {
     errorEnvelopeFromValidationRejections(formFieldNames, validationRejections)
   }
 }
