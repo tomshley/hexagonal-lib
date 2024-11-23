@@ -1,7 +1,7 @@
-package com.tomshley.hexagonal.lib.http2.extraction.formfield.exceptions
+package  com.tomshley.hexagonal.lib.reqreply.forms.exceptions
 
-import com.tomshley.hexagonal.lib.http2.extraction.formfield.exceptions.models.FormFieldErrorValidationListEnvelope
 import com.tomshley.hexagonal.lib.marshalling.JsonMarshaller
+import com.tomshley.hexagonal.lib.reqreply.forms.exceptions.models.FormFieldErrorValidationListEnvelope
 
 final case class FormFieldException(formFieldErrorValidationListEnvelope: FormFieldErrorValidationListEnvelope,
                                     cause: Throwable = None.orNull)

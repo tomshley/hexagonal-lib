@@ -1,9 +1,9 @@
-package com.tomshley.hexagonal.lib.http2.extraction.formfield
+package  com.tomshley.hexagonal.lib.reqreply.forms
 
-import com.tomshley.hexagonal.lib.http2.extraction.formfield.exceptions.FormFieldException
-import com.tomshley.hexagonal.lib.http2.extraction.formfield.exceptions.models.FormFieldErrorValidationListEnvelope
-import com.tomshley.hexagonal.lib.http2.extraction.formfield.models.{FormFieldNames, NamedValidation}
 import com.tomshley.hexagonal.lib.marshalling.JsonMarshaller
+import com.tomshley.hexagonal.lib.reqreply.forms.exceptions.FormFieldException
+import com.tomshley.hexagonal.lib.reqreply.forms.exceptions.models.FormFieldErrorValidationListEnvelope
+import com.tomshley.hexagonal.lib.reqreply.forms.models.{FormFieldNames, NamedValidation}
 import org.apache.pekko.http.scaladsl.model.*
 import org.apache.pekko.http.scaladsl.model.StatusCodes.*
 import org.apache.pekko.http.scaladsl.server.ValidationRejection
@@ -18,13 +18,12 @@ sealed trait RejectionToErrorEnvelope {
           case _ =>
             false
       )
-      .map((rejection) =>
+      .map(rejection =>
         try {
           Some(JsonMarshaller.deserializeWithDefaults[FormFieldErrorValidationListEnvelope](rejection.message))
         } catch {
-          case _ => {
+          case _ =>
             Option.empty[FormFieldErrorValidationListEnvelope]
-          }
         }
       )
       .filter(errorValidationMaybe => {
