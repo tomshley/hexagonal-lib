@@ -10,7 +10,7 @@ private object RequestIdSettings {
   final val splitSeparator = ";"
 }
 
-final case class ExpiringValue(uuid: UUID, expiration: Instant)
+final case class ExpiringValue(uuid: UUID, expiration: Instant, value:Option[String])
     extends InsecureSaltedEncryptionUtil {
   private def toSplittableString =
     s"$uuid${RequestIdSettings.splitSeparator}$expiration"
@@ -29,10 +29,11 @@ final case class ExpiringValue(uuid: UUID, expiration: Instant)
 }
 
 object ExpiringValue extends InsecureSaltedEncryptionUtil {
-  def apply(expirationDuration: Option[Duration] = Option.empty) =
+  def apply(expirationDuration: Option[Duration] = None, value:Option[String] = None) =
     new ExpiringValue(
       UUID.randomUUID(),
-      Instant.now().plusMillis(expirationDuration.getOrElse(5.minutes).toMillis)
+      Instant.now().plusMillis(expirationDuration.getOrElse(5.minutes).toMillis),
+      value
     )
 
   def fromBase64Hmac(hashString: String): Option[ExpiringValue] = {
@@ -42,7 +43,8 @@ object ExpiringValue extends InsecureSaltedEncryptionUtil {
       Some(
         ExpiringValue(
           UUID.fromString(splitHash(0)),
-          Instant.parse(splitHash(1))
+          Instant.parse(splitHash(1)),
+          if splitHash.length > 2 then Some(splitHash(2)) else None
         )
       )
     } catch {
@@ -53,3 +55,5 @@ object ExpiringValue extends InsecureSaltedEncryptionUtil {
   final class ExpiringValueInvalid(message: String)
       extends Exception(message)
 }
+
+
