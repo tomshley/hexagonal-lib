@@ -23,7 +23,7 @@ import org.apache.pekko.actor.typed.ActorSystem
 import org.apache.pekko.http.scaladsl.server.Route
 
 trait WebServerRoutingBoilerplate {
-  def routes[A](system: ActorSystem[?], args: Option[A]*): Seq[Route] =
+  def routes[A](system: ActorSystem[?], arg: Option[A]): Seq[Route] =
     throw new NotImplementedError(
       "This method must be implemented to use services. Ok if not using services"
     )
