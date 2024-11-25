@@ -1,5 +1,6 @@
 package com.tomshley.hexagonal.lib.reqreply.models
 
 trait IdempotentView {
-  def requestId: ExpiringValue = ExpiringValue()
+  lazy val requestId: ExpiringValue = ExpiringValue()
+  lazy val requestIdHmac: String = requestId.toBase64Hmac
 }

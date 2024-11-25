@@ -1,20 +1,20 @@
 package com.tomshley.hexagonal.lib.reqreply
 
 import com.tomshley.hexagonal.lib.reqreply.models.ExpiringValue
-import com.tomshley.hexagonal.lib.reqreply.models.ExpiringValue.ExpiringValueInvalid
 import org.apache.pekko.actor.typed.ActorSystem
-import org.apache.pekko.cluster.sharding.typed.scaladsl.ClusterSharding
+import org.apache.pekko.cluster.sharding.typed.scaladsl.{ClusterSharding, EntityRef}
 import org.apache.pekko.util.Timeout
 import org.slf4j.{Logger, LoggerFactory}
 
 import scala.concurrent.Future
 
 class Idempotency(system: ActorSystem[?]) {
+
   import system.executionContext
 
   private val logger: Logger = LoggerFactory.getLogger(getClass)
 
-  private val idempotencyCluster = ClusterSharding(system)
+  final lazy val idempotencyCluster = ClusterSharding(system)
 
   implicit private val timeout: Timeout =
     Timeout.create(
@@ -22,35 +22,34 @@ class Idempotency(system: ActorSystem[?]) {
         .getDuration("tomshley-hexagonal-reqreply-idempotency.ask-timeout")
     )
 
+  private def idempotencyEntityRef(requestId: ExpiringValue): EntityRef[Idempotent.Command] = {
+    idempotencyCluster.entityRefFor(
+      Idempotent.EntityKey,
+      requestId.uuid.toString
+    )
+  }
+
+  def idempotencyResult(requestId: ExpiringValue, resultEntityRef: Option[EntityRef[Idempotent.Command]] = None): Future[Idempotent.Summary] = {
+    resultEntityRef.getOrElse(idempotencyEntityRef(requestId)).askWithStatus(
+      Idempotent.SingleRequest(Option.empty, Option.empty, _)
+    )
+  }
+
   def reqReply(
                 requestId: ExpiringValue,
                 responseBodyCallback: => Future[Idempotency.RequestReply]
-  ): Future[Idempotency.RequestReply] = {
-    if (requestId.isExpired) {
-      Future.failed(
-        new ExpiringValueInvalid("You've made an expired request")
-      )
-    } else {
-      val idempotentEntityRef =
-        idempotencyCluster.entityRefFor(
-          Idempotent.EntityKey,
-          requestId.uuid.toString
-        )
-
-      val idempotentReply: Future[Idempotent.Summary] =
-        idempotentEntityRef.askWithStatus(
-          Idempotent.SingleRequest(Option.empty, Option.empty, _)
-        )
-      idempotentReply.flatMap(idempotentRequest => {
+              ): Future[Idempotency.RequestReply] = {
+    val entityRef = idempotencyEntityRef(requestId)
+    idempotencyResult(requestId, Some(entityRef))
+      .flatMap(idempotentRequest => {
         if (!idempotentRequest.isIdempotent) {
-          responseBodyCallback.map { response =>
-            idempotentEntityRef
-              .askWithStatus(
-                Idempotent
-                  .SingleReply(response.headers, response.body, _)
-              )
-
-            Idempotency.RequestReply(response.headers, response.body)
+          responseBodyCallback.map { (response: Idempotency.RequestReply) =>
+            entityRef.askWithStatus(
+              Idempotent
+                .SingleReply(response.headers, response.body, _)
+            ) match
+              // Silently fail pass
+              case _ => Idempotency.RequestReply(response.headers, response.body)
           }
         } else {
           logger.info(
@@ -58,17 +57,11 @@ class Idempotency(system: ActorSystem[?]) {
             idempotentRequest.idempotencyKey,
             idempotentRequest.isIdempotent
           )
-          if (idempotentRequest.replyBody.isDefined) {
-            Future.successful(
-              Idempotency
-                .RequestReply(Option.empty, idempotentRequest.replyBody)
-            )
-          } else {
-            Future.failed(new Exception("You've made a duplicate request"))
-          }
+          Future.successful(
+            Idempotency.RequestReply(Option.empty, idempotentRequest.replyBody)
+          )
         }
       })
-    }
   }
 }
 

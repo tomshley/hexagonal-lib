@@ -1,8 +1,8 @@
 package com.tomshley.hexagonal.lib.reqreply.models
 
 trait IdempotentFormField {
-  lazy val idempotentRequestId: Option[ExpiringValue] = {
-    ExpiringValue.fromBase64Hmac(requestId)
+  lazy val requestIdExpiringValueMaybe: Option[ExpiringValue] = {
+    ExpiringValue.fromBase64Hmac(requestIdHmacString)
   }
-  val requestId: String
+  val requestIdHmacString: String
 }

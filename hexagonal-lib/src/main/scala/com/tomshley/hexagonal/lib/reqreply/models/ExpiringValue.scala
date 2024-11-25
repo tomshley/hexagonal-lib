@@ -12,8 +12,12 @@ private object RequestIdSettings {
 
 final case class ExpiringValue(uuid: UUID, expiration: Instant, value:Option[String])
     extends InsecureSaltedEncryptionUtil {
-  private def toSplittableString =
-    s"$uuid${RequestIdSettings.splitSeparator}$expiration"
+  private def toSplittableString = {
+    val baseString = Seq(uuid.toString, expiration.toString)
+    (value match
+      case Some(value) => baseString :+ value
+      case None => baseString).mkString(RequestIdSettings.splitSeparator)
+  }
 
   def toBase64Hmac: String = {
     encryptBase64Hmac(toSplittableString)
