@@ -1,11 +1,11 @@
 package com.tomshley.hexagonal.lib.utils
 
-import com.typesafe.config.ConfigFactory
 import org.apache.commons.codec.binary.Base64
 
 import java.util
+import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
-import javax.crypto.{Cipher, Mac}
+import scala.util.matching.Regex
 
 private object SaltedHmacSettings extends ConfigKeyUtil{
   final val cipherAlgorithm = "AES/ECB/PKCS5Padding"
@@ -22,6 +22,7 @@ private object SaltedHmacSettings extends ConfigKeyUtil{
     )
   }
 }
+
 sealed trait EncryptDecrypt {
   def encrypt(value: String): Array[Byte]
   
@@ -46,6 +47,8 @@ protected class InsecureSaltedEncryption extends EncryptDecrypt {
 }
 
 trait InsecureSaltedEncryptionUtil extends EncryptDecrypt {
+  lazy final val base64URLSafeRegex: Regex = """^[A-Za-z0-9\-_]+$""".r
+
   override def encrypt(value: String): Array[Byte] = {
     InsecureSaltedEncryption().encrypt(value)
   }
@@ -54,7 +57,7 @@ trait InsecureSaltedEncryptionUtil extends EncryptDecrypt {
     InsecureSaltedEncryption().decrypt(byteArray)
   
   def encryptBase64Hmac(value: String): String = {
-    Base64.encodeBase64String(encrypt(value))
+    Base64.encodeBase64URLSafe(encrypt(value)).map(_.toChar).mkString
   }
   
   def decryptBase64Hmac(encodedValue: String): String = {
